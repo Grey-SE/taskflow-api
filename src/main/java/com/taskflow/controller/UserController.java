@@ -2,11 +2,13 @@ package com.taskflow.controller;
 
 import com.taskflow.model.dto.request.RegisterUserRequest;
 import com.taskflow.model.dto.response.UserResponse;
+import com.taskflow.model.entity.User;
 import com.taskflow.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -43,5 +45,13 @@ public class UserController {
     public ResponseEntity<UserResponse> getUserByEmail(
             @PathVariable String email) {
         return ResponseEntity.ok(userService.getUserByEmail(email));
+    }
+
+    // GET /api/users/me
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> getCurrentUser(
+            @AuthenticationPrincipal User currentUser) {
+        // Spring injects the authenticated user from SecurityContext
+        return ResponseEntity.ok(UserResponse.from(currentUser));
     }
 }

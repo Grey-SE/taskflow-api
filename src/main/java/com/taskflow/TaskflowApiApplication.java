@@ -13,8 +13,8 @@ public class TaskflowApiApplication {
 		SpringApplication.run(TaskflowApiApplication.class, args);
 	}
 
-	@Bean
+	/*@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
-	}
+	}*/
 }

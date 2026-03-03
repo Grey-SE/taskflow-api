@@ -9,6 +9,7 @@ import com.taskflow.model.entity.User;
 import com.taskflow.model.enums.UserRole;
 import com.taskflow.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserResponse registerUser(RegisterUserRequest request) {
@@ -36,7 +38,7 @@ public class UserServiceImpl implements UserService {
         User user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
-                .password(request.getPassword()) // plain text for now
+                .password(passwordEncoder.encode(request.getPassword())) // hashed
                 .role(UserRole.USER)              // default role on register
                 .build();
 
